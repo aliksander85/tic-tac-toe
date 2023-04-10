@@ -58,6 +58,9 @@ h6 {
 	text-align: center;
 	width: 34px;
 }
+.square_highlighted {
+	background: #ccc;
+}
 
 .board-row:after {
 	clear: both;

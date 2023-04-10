@@ -8,7 +8,7 @@ interface BoardProps {
 }
 
 function Board({ xIsNext, squares, onPlay }: BoardProps) {
-	const winner = calculateWinner(squares);
+	const { winner, combination } = calculateWinner(squares);
 	let status;
 	if (winner) {
 		status = 'Winner: ' + winner;
@@ -17,7 +17,7 @@ function Board({ xIsNext, squares, onPlay }: BoardProps) {
 	}
 
 	function handleClick(i: number) {
-		if (squares[i] || calculateWinner(squares)) {
+		if (squares[i] || calculateWinner(squares)?.winner) {
 			return;
 		}
 		const nextSquares = squares.slice();
@@ -37,6 +37,11 @@ function Board({ xIsNext, squares, onPlay }: BoardProps) {
 					{[0, 1, 2].map((j) => (
 						<Square
 							key={j}
+							isInWinnerCombination={
+								i * 3 + j === combination?.a ||
+								i * 3 + j === combination?.b ||
+								i * 3 + j === combination?.c
+							}
 							value={squares[i * 3 + j]}
 							onSquareClick={() => handleClick(i * 3 + j)}
 						/>

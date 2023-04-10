@@ -17,9 +17,9 @@ export const calculateWinner = function (squares: string[]) {
 			squares[a] === squares[b] &&
 			squares[a] === squares[c]
 		) {
-			return squares[a];
+			return { winner: squares[a], combination: { a, b, c } };
 		}
 	}
 
-	return null;
+	return { winner: null, combination: null };
 };
