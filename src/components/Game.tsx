@@ -54,20 +54,16 @@ function Game() {
 				description =
 					'You are at move #' +
 					move +
-					' (' +
-					historyItem.row +
-					', ' +
-					historyItem.col +
-					')';
+					(historyItem.row !== null
+						? ' (' + historyItem.row + ', ' + historyItem.col + ')'
+						: '');
 			} else if (move > 0) {
 				description =
 					'Go to move #' +
 					move +
-					' (' +
-					historyItem.row +
-					', ' +
-					historyItem.col +
-					')';
+					(historyItem.row !== null
+						? ' (' + historyItem.row + ', ' + historyItem.col + ')'
+						: '');
 			} else {
 				description = 'Go to game start';
 			}
