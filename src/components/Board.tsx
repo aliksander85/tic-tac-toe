@@ -3,8 +3,8 @@ import { calculateWinner } from '../helpers/calculateWinner';
 
 interface BoardProps {
 	xIsNext: boolean;
-	squares: string[];
-	onPlay: (squares: string[]) => void;
+	squares: (string | null)[];
+	onPlay: (squares: (string | null)[], row: number, col: number) => void;
 }
 
 function Board({ xIsNext, squares, onPlay }: BoardProps) {
@@ -16,7 +16,7 @@ function Board({ xIsNext, squares, onPlay }: BoardProps) {
 		status = 'Next player: ' + (xIsNext ? 'X' : 'O');
 	}
 
-	function handleClick(i: number) {
+	function handleClick(i: number, row: number, col: number) {
 		if (squares[i] || calculateWinner(squares)?.winner) {
 			return;
 		}
@@ -26,7 +26,7 @@ function Board({ xIsNext, squares, onPlay }: BoardProps) {
 		} else {
 			nextSquares[i] = 'O';
 		}
-		onPlay(nextSquares);
+		onPlay(nextSquares, row, col);
 	}
 
 	return (
@@ -43,7 +43,7 @@ function Board({ xIsNext, squares, onPlay }: BoardProps) {
 								i * 3 + j === combination?.c
 							}
 							value={squares[i * 3 + j]}
-							onSquareClick={() => handleClick(i * 3 + j)}
+							onSquareClick={() => handleClick(i * 3 + j, i, j)}
 						/>
 					))}
 				</div>

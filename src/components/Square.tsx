@@ -1,5 +1,5 @@
 interface SquareProps {
-	value: string;
+	value: string | null;
 	isInWinnerCombination: boolean;
 	onSquareClick: () => void;
 }

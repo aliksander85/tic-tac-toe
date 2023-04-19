@@ -1,16 +1,37 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import { Board } from './Board';
 
+interface HistoryItem {
+	squares: Array<string | null>;
+	row: number | null;
+	col: number | null;
+}
+
 function Game() {
-	const [history, setHistory] = useState([Array(9).fill(null)]);
+	const [history, setHistory] = useState<HistoryItem[]>([
+		{
+			squares: Array(9).fill(null),
+			row: null,
+			col: null,
+		},
+	]);
 	const [currentMove, setCurrentMove] = useState(0);
 	const [isAscending, setIsAscending] = useState(true);
-	const xIsNext = currentMove % 2 === 0;
-	const currentSquares = history[currentMove];
 
-	function handlePlay(nextSquares: string[]) {
-		const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+	const xIsNext = currentMove % 2 === 0;
+	const currentSquares = history[currentMove].squares;
+
+	function handlePlay(
+		nextSquares: (string | null)[],
+		row: number | null,
+		col: number | null
+	) {
+		const nextHistory = [
+			...history.slice(0, currentMove + 1),
+			{ squares: nextSquares, row, col },
+		];
 		setHistory(nextHistory);
+
 		setCurrentMove(nextHistory.length - 1);
 	}
 
@@ -25,14 +46,28 @@ function Game() {
 	const moves = history
 		.slice()
 		.sort(sortHistory)
-		.map((squares, index) => {
+		.map((historyItem, index) => {
 			let description;
 			const move = isAscending ? index : history.length - 1 - index;
 			const isLastMove = history.length - 1 === move;
 			if (isLastMove) {
-				description = 'You are at move #' + move;
+				description =
+					'You are at move #' +
+					move +
+					' (' +
+					historyItem.row +
+					', ' +
+					historyItem.col +
+					')';
 			} else if (move > 0) {
-				description = 'Go to move #' + move;
+				description =
+					'Go to move #' +
+					move +
+					' (' +
+					historyItem.row +
+					', ' +
+					historyItem.col +
+					')';
 			} else {
 				description = 'Go to game start';
 			}
