@@ -74,6 +74,8 @@ h6 {
 .game {
 	display: flex;
 	flex-direction: row;
+
+	width: 350px;
 	height: 250px;
 }
 
